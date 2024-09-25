@@ -45,6 +45,7 @@ class TestCounterEndPoints:
         result = client.put('/counters/bar1')
         assert result.status_code == status.HTTP_200_OK
         assert baseline+1==COUNTERS['bar1']
+        result=client.put('/counters/foo2')
 
     def test_read_counter(self,client):
         result = client.post('/counters/bar2')
@@ -54,3 +55,10 @@ class TestCounterEndPoints:
         read=client = client.get('/counters/bar3')
         assert read.status_code == status.HTTP_404_NOT_FOUND
 
+    def test_delete_a_counter(self, client):
+        result = client.post('/counters/bar4')
+        assert result.status_code == status.HTTP_201_CREATED
+        result = client.delete('/counters/bar4')
+        assert result.status_code == status.HTTP_204_NO_CONTENT
+        result=client.delete('/counters/bar5')
+        assert result.status_code == status.HTTP_404_NOT_FOUND
